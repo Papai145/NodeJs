@@ -1,7 +1,7 @@
 const timeArr = [process.argv[2], process.argv[3], process.argv[4]];
 
-function transformTimeArr(arr) {
-  const timeObject = {};
+function getObjTime(arr) {
+  const objTime = {};
   const timeArr = arr.filter((el) => {
     if (el !== undefined) {
       return el;
@@ -10,39 +10,39 @@ function transformTimeArr(arr) {
 
   for (let elem of timeArr) {
     if (elem.slice(-1) == "h") {
-      timeObject["hour"] = Number(elem.slice(0, -1));
+      objTime["hour"] = parseInt(elem);
     }
     if (elem.slice(-1) == "m") {
-      timeObject["minutes"] = Number(elem.slice(0, -1));
+      objTime["minutes"] = parseInt(elem);
     }
     if (elem.slice(-1) == "s") {
-      timeObject["second"] = Number(elem.slice(0, -1));
+      objTime["second"] = parseInt(elem);
     }
   }
-  return timeObject;
+  return objTime;
 }
 
 function timer(obj) {
   let ms = 0;
-  let str = "Таймер сработает через ";
+  let message = "Таймер сработает через ";
   for (const key in obj) {
     if (key == "hour") {
-      str += `${obj[key]} час `;
+      message += `${obj[key]} час `;
       ms += obj[key] * 3600000;
     }
     if (key == "minutes") {
-      str += `${obj[key]} минут `;
+      message += `${obj[key]} минут `;
       ms += obj[key] * 60000;
     }
     if (key == "second") {
-      str += `${obj[key]} секунд `;
+      message += `${obj[key]} секунд `;
       ms += obj[key] * 1000;
     }
   }
-  console.log(str);
+  console.log(message);
   setTimeout(() => {
     console.log("таймер сработал");
   }, ms);
 }
-const a = transformTimeArr(timeArr);
-timer(a);
+const objTime = getObjTime(timeArr);
+timer(objTime);
